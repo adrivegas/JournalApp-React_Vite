@@ -11,7 +11,16 @@ export const RegisterPage = () => {
     displayName: 'Adrivegas'
   }
 
-  const { formState, displayName, email, password, onInputChange } = useForm(formData);
+  const formValidations = {
+    email: [ (value) => value.includes('@'), 'El correo debe de tener una @'],
+    password: [ (value) => value.length >= 6, 'El password debe de tener más de 6 letras.'],
+    displayName: [ (value) => value.length >= 1, 'El nombre es obligatorio.'],
+  }
+
+  const { 
+    formState, displayName, email, password, onInputChange,
+    isFormValid, displayNameValid, emailValid, passwordValid, 
+  } = useForm( formData, formValidations );
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -61,10 +70,10 @@ export const RegisterPage = () => {
 
           <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
             <Grid item xs={12}>
-              <Button 
-              type= "submit"
-              variant='contained' 
-              fullWidth
+              <Button
+                type="submit"
+                variant='contained'
+                fullWidth
               >
                 Crear cuenta
               </Button>
