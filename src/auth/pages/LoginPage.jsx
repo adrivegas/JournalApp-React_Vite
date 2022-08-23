@@ -3,37 +3,40 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 import { Alert, Button, Grid, Link, TextField, Typography } from '@mui/material';
 import { Google } from '@mui/icons-material';
+
 import { AuthLayout } from '../layout/AuthLayout';
+
 import { useForm } from '../../hooks';
-import { startGoogleSingIn, startLoginWithEmailPassword } from '../../store/auth';
+import { startGoogleSignIn, startLoginWithEmailPassword } from '../../store/auth';
 
 export const LoginPage = () => {
 
   const { status, errorMessage } = useSelector(state => state.auth);
 
   const dispatch = useDispatch();
-
   const { email, password, onInputChange } = useForm({
     email: '',
-    password: '',
+    password: ''
   });
 
   const isAuthenticating = useMemo(() => status === 'checking', [status]);
 
   const onSubmit = (event) => {
     event.preventDefault();
-    // console.log({ email, password });
+
+    // console.log({ email, password })
     dispatch(startLoginWithEmailPassword({ email, password }));
-  };
+  }
 
   const onGoogleSignIn = () => {
-    console.log('onGoogleSignIn')
-    dispatch(startGoogleSingIn());
-  };
+    console.log('onGoogleSignIn');
+    dispatch(startGoogleSignIn());
+  }
+
 
   return (
     <AuthLayout title="Login">
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} className='animate__animated animate__fadeIn animate__faster'>
         <Grid container>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
@@ -59,6 +62,7 @@ export const LoginPage = () => {
             />
           </Grid>
 
+
           <Grid
             container
             display={!!errorMessage ? '' : 'none'}
@@ -74,11 +78,10 @@ export const LoginPage = () => {
           <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
             <Grid item xs={12} sm={6}>
               <Button
-                // disabled={isAuthenticating}
+                disabled={isAuthenticating}
                 type="submit"
                 variant='contained'
-                fullWidth
-              >
+                fullWidth>
                 Login
               </Button>
             </Grid>
@@ -87,13 +90,13 @@ export const LoginPage = () => {
                 disabled={isAuthenticating}
                 variant='contained'
                 fullWidth
-                onClick={onGoogleSignIn}
-              >
+                onClick={onGoogleSignIn}>
                 <Google />
                 <Typography sx={{ ml: 1 }}>Google</Typography>
               </Button>
             </Grid>
           </Grid>
+
 
           <Grid container direction='row' justifyContent='end'>
             <Link component={RouterLink} color='inherit' to="/auth/register">
@@ -103,9 +106,9 @@ export const LoginPage = () => {
 
         </Grid>
 
+
       </form>
+
     </AuthLayout>
-
-
   )
 }
