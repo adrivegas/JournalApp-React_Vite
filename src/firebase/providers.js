@@ -1,3 +1,4 @@
+import { async } from '@firebase/util';
 import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, updateProfile } from 'firebase/auth';
 import { FirebaseAuth } from './config';
 
@@ -68,4 +69,8 @@ export const loginWithEmailPassword = async({ email, password }) => {
     } catch (error) {
         return { ok: false, errorMessage: error.message }
     }
+}
+
+export const logoutFirebase = async() => {
+    return await FirebaseAuth.signOut();
 }
