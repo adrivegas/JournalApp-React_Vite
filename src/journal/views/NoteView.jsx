@@ -1,8 +1,15 @@
 import { SaveOutlined } from '@mui/icons-material';
 import { Button, Grid, TextField, Typography } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { useForm } from '../../hooks/useForm';
 import { ImageGallery } from '../components';
 
 export const NoteView = () => {
+
+    const { active:note, messageSaved, isSaving } = useSelector( state => state.journal );
+
+    const { body, title, date, onInputChange, formState } = useForm( note );
+
     return (
         <Grid
             className='animate__animated animate__fadeIn animate__faster'
@@ -29,6 +36,9 @@ export const NoteView = () => {
                     placeholder="Ingrese un título"
                     label="Título"
                     sx={{ border: 'none', mb: 1 }}
+                    name="title"
+                    value={ title }
+                    onChange={ onInputChange }
                 />
 
                 <TextField
