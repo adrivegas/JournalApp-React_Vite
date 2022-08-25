@@ -1,14 +1,38 @@
+import { useEffect, useMemo } from 'react';
 import { SaveOutlined } from '@mui/icons-material';
 import { Button, Grid, TextField, Typography } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from '../../hooks/useForm';
 import { ImageGallery } from '../components';
+import { setActiveNote, startSaveNote } from '../../store/journal';
 
 export const NoteView = () => {
 
+    const dispatch = useDispatch();
     const { active:note, messageSaved, isSaving } = useSelector( state => state.journal );
 
     const { body, title, date, onInputChange, formState } = useForm( note );
+
+    const dateString = useMemo(() => {
+        const newDate = new Date( date );
+        return newDate.toUTCString();
+    }, [date])
+
+    const fileInputRef = useRef();
+
+    useEffect(() => {
+        dispatch( setActiveNote(formState) );
+    }, [formState])
+
+    // useEffect(() => {
+    //   if ( messageSaved.length > 0 ) {
+    //       Swal.fire('Nota actualizada', messageSaved, 'success');
+    //   }
+    // }, [messageSaved])
+
+    const onSaveNote = () => {
+        dispatch( startSaveNote() );
+    }
 
     return (
         <Grid
