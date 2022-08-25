@@ -12,15 +12,15 @@ export const journalSlice = createSlice({
         savingNewNote: ( state ) => {
             state.isSaving = true;
         },
-        addNewEmptyNote: (state, action) => {
-            state.notes.push(action.payload);
+        addNewEmptyNote: (state, action ) => {
+            state.notes.push( action.payload );
             state.isSaving = false;
         },
-        setActiveNote: () => {
-
+        setActiveNote: (state, action) => {
+            state.active = action.payload;
         },
-        setNotes: () => {
-
+        setNotes: (state, action) => {
+            state.notes = action.payload;
         },
         setSaving: () => {
 
